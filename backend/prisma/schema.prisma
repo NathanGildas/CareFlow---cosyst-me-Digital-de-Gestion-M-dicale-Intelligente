@@ -1,0 +1,369 @@
+// CareFlow Database Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// MODELS UTILISATEURS
+// =====================================================
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  role      Role     @default(PATIENT)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations polymorphes selon le rôle
+  patient Patient?
+  doctor  Doctor?
+  insurer Insurer?
+
+  @@map("users")
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+  INSURER
+  ADMIN
+}
+
+// =====================================================
+// PATIENTS
+// =====================================================
+
+model Patient {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  socialNumber     String?  @unique
+  birthDate        DateTime
+  gender           Gender
+  address          String
+  emergencyContact String
+  bloodType        String?
+  allergies        String[] @default([])
+
+  // Relations
+  insurance      Insurance?
+  appointments   Appointment[]
+  consultations  Consultation[]
+  medicalRecords MedicalRecord[]
+
+  @@map("patients")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// =====================================================
+// MÉDECINS
+// =====================================================
+
+model Doctor {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  licenseNumber   String   @unique
+  specialty       String
+  subSpecialty    String?
+  experience      Int // années d'expérience
+  consultationFee Decimal
+  workingHours    Json // horaires de travail
+  education       String
+  certifications  String[]
+  languages       String[] @default(["Français"])
+
+  // Relations
+  establishment   Establishment        @relation(fields: [establishmentId], references: [id])
+  establishmentId String
+  appointments    Appointment[]
+  consultations   Consultation[]
+  availabilities  DoctorAvailability[]
+
+  @@map("doctors")
+}
+
+// =====================================================
+// ASSUREURS
+// =====================================================
+
+model Insurer {
+  id                 String @id @default(uuid())
+  userId             String @unique
+  user               User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName        String
+  agentNumber        String @unique
+  authorizationLevel String // JUNIOR, SENIOR, SUPERVISOR
+
+  // Relations
+  insurancePlans Insurance[]
+
+  @@map("insurers")
+}
+
+// =====================================================
+// RENDEZ-VOUS
+// =====================================================
+
+model Appointment {
+  id        String            @id @default(uuid())
+  patientId String
+  doctorId  String
+  dateTime  DateTime
+  duration  Int               @default(30) // minutes
+  type      AppointmentType   @default(CONSULTATION)
+  status    AppointmentStatus @default(SCHEDULED)
+  reason    String
+  notes     String?
+  cost      Decimal
+  isUrgent  Boolean           @default(false)
+
+  // Relations
+  patient      Patient       @relation(fields: [patientId], references: [id])
+  doctor       Doctor        @relation(fields: [doctorId], references: [id])
+  consultation Consultation?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("appointments")
+}
+
+enum AppointmentType {
+  CONSULTATION
+  TELECONSULTATION
+  EMERGENCY
+  FOLLOWUP
+  SURGERY
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+// =====================================================
+// CONSULTATIONS
+// =====================================================
+
+model Consultation {
+  id            String @id @default(uuid())
+  appointmentId String @unique
+  patientId     String
+  doctorId      String
+
+  symptoms    String[]
+  examination String?
+  diagnosis   String?
+  treatment   String?
+  notes       String?
+  vitalSigns  Json? // tension, température, etc.
+
+  // Relations
+  appointment   Appointment    @relation(fields: [appointmentId], references: [id])
+  patient       Patient        @relation(fields: [patientId], references: [id])
+  doctor        Doctor         @relation(fields: [doctorId], references: [id])
+  prescriptions Prescription[]
+  invoice       Invoice?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("consultations")
+}
+
+// =====================================================
+// PRESCRIPTIONS
+// =====================================================
+
+model Prescription {
+  id             String             @id @default(uuid())
+  consultationId String
+  medication     String
+  dosage         String
+  frequency      String
+  duration       String
+  instructions   String?
+  status         PrescriptionStatus @default(ACTIVE)
+
+  // Relations
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("prescriptions")
+}
+
+enum PrescriptionStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+// =====================================================
+// ASSURANCE & FACTURATION
+// =====================================================
+
+model Insurance {
+  id            String   @id @default(uuid())
+  patientId     String   @unique
+  insurerId     String // Ajout de cette ligne
+  companyName   String
+  policyNumber  String   @unique
+  planType      String // BASIC, STANDARD, PREMIUM
+  startDate     DateTime
+  endDate       DateTime
+  coverageLimit Decimal
+  deductible    Decimal
+  copayment     Decimal  @default(0)
+
+  // Relations
+  patient Patient @relation(fields: [patientId], references: [id])
+  insurer Insurer @relation(fields: [insurerId], references: [id]) // Ajout de cette ligne
+  claims  Claim[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("insurance")
+}
+
+model Invoice {
+  id              String        @id @default(uuid())
+  consultationId  String        @unique
+  invoiceNumber   String        @unique
+  totalAmount     Decimal
+  patientAmount   Decimal
+  insuranceAmount Decimal       @default(0)
+  status          InvoiceStatus @default(PENDING)
+  dueDate         DateTime
+  paidDate        DateTime?
+
+  // Relations
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+  claim        Claim?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("invoices")
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  PARTIALLY_PAID
+  OVERDUE
+  CANCELLED
+}
+
+model Claim {
+  id              String      @id @default(uuid())
+  insuranceId     String
+  invoiceId       String      @unique
+  claimNumber     String      @unique
+  amount          Decimal
+  status          ClaimStatus @default(SUBMITTED)
+  submittedAt     DateTime    @default(now())
+  processedAt     DateTime?
+  rejectionReason String?
+
+  // Relations
+  insurance Insurance @relation(fields: [insuranceId], references: [id])
+  invoice   Invoice   @relation(fields: [invoiceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("claims")
+}
+
+enum ClaimStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  PAID
+}
+
+// =====================================================
+// ÉTABLISSEMENTS & INFRASTRUCTURE
+// =====================================================
+
+model Establishment {
+  id      String            @id @default(uuid())
+  name    String
+  type    EstablishmentType
+  address String
+  phone   String
+  email   String
+  website String?
+
+  // Relations
+  doctors Doctor[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("establishments")
+}
+
+enum EstablishmentType {
+  HOSPITAL
+  CLINIC
+  PRIVATE_PRACTICE
+  HEALTH_CENTER
+}
+
+model DoctorAvailability {
+  id        String  @id @default(uuid())
+  doctorId  String
+  dayOfWeek Int // 0=Dimanche, 1=Lundi, etc.
+  startTime String // Format HH:mm
+  endTime   String // Format HH:mm
+  isActive  Boolean @default(true)
+
+  // Relations
+  doctor Doctor @relation(fields: [doctorId], references: [id])
+
+  @@map("doctor_availabilities")
+}
+
+model MedicalRecord {
+  id        String   @id @default(uuid())
+  patientId String
+  type      String // "LAB_RESULT", "IMAGING", "VACCINATION", etc.
+  title     String
+  content   String
+  fileUrl   String?
+  date      DateTime
+
+  // Relations
+  patient Patient @relation(fields: [patientId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("medical_records")
+}
