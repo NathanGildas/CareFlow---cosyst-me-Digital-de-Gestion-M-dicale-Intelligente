@@ -1,4 +1,4 @@
-// CareFlow Database Schema
+// CareFlow Database Schema - Version Corrigée pour Seed
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,6 +6,138 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// ÉNUMÉRATIONS SPÉCIFIQUES SÉNÉGAL
+// =====================================================
+
+enum Role {
+  PATIENT
+  DOCTOR
+  INSURER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum SenegalRegion {
+  DAKAR
+  THIES
+  SAINT_LOUIS
+  DIOURBEL
+  LOUGA
+  TAMBACOUNDA
+  KAOLACK
+  ZIGUINCHOR
+  FATICK
+  KOLDA
+  MATAM
+  KAFFRINE
+  KEDOUGOU
+  SEDHIOU
+}
+
+enum MedicalSpecialty {
+  // Spécialités de base
+  MEDECINE_GENERALE
+  PEDIATRIE
+  GYNECOLOGIE_OBSTETRIQUE
+  CHIRURGIE_GENERALE
+  MEDECINE_INTERNE
+  
+  // Spécialités techniques
+  CARDIOLOGIE
+  NEUROLOGIE
+  DERMATOLOGIE
+  OPHTALMOLOGIE
+  ORL
+  ORTHOPEDE
+  UROLOGIE
+  ANESTHESIE_REANIMATION
+  RADIOLOGIE
+  
+  // Spécialités adaptées Sénégal
+  MALADIES_INFECTIEUSES
+  MEDECINE_TROPICALE
+  SANTE_PUBLIQUE
+  MEDECINE_TRADITIONNELLE
+}
+
+enum InsuranceType {
+  IPM              // Institution Prévoyance Maladie (salariés)
+  MUTUELLE_SANTE   // Mutuelles communautaires
+  ASSURANCE_PRIVEE // NSIA, ASKIA, AXA, etc.
+  CMU              // Couverture Maladie Universelle
+  PRIVE            // Paiement direct sans assurance
+}
+
+enum InsurancePlan {
+  BRONZE   // 40-50% couverture
+  ARGENT   // 60-70% couverture
+  OR       // 75-85% couverture
+  PREMIUM  // 90%+ couverture (rare)
+}
+
+enum LanguageSpoken {
+  FRANCAIS
+  WOLOF
+  PULAAR
+  SERER
+  MANDINKA
+  DIOLA
+  SONINKE
+}
+
+enum AppointmentType {
+  CONSULTATION
+  TELECONSULTATION
+  EMERGENCY
+  FOLLOWUP
+  SURGERY
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PrescriptionStatus {
+  ACTIVE
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  PARTIALLY_PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum ClaimStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  PAID
+}
+
+enum EstablishmentType {
+  HOSPITAL
+  CLINIC
+  PRIVATE_PRACTICE
+  HEALTH_CENTER
 }
 
 // =====================================================
@@ -32,133 +164,234 @@ model User {
   @@map("users")
 }
 
-enum Role {
-  PATIENT
-  DOCTOR
-  INSURER
-  ADMIN
-}
-
 // =====================================================
-// PATIENTS
+// PATIENTS CORRIGÉS
 // =====================================================
 
 model Patient {
-  id               String   @id @default(uuid())
-  userId           String   @unique
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  socialNumber     String?  @unique
-  birthDate        DateTime
+  id               String            @id @default(uuid())
+  userId           String            @unique
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Identité - CORRIGÉ pour correspondre au seed
+  nationalId       String?           @unique // ÉTAIT socialNumber
+  dateOfBirth      DateTime          // CORRIGÉ
   gender           Gender
+  
+  // Localisation Sénégal
   address          String
+  region           SenegalRegion     @default(DAKAR)
+  city             String?
+  
+  // Contact
   emergencyContact String
+  
+  // Médical
   bloodType        String?
-  allergies        String[] @default([])
-
+  allergies        String[]          @default([])
+  chronicConditions String[]         @default([]) // AJOUTÉ
+  
   // Relations
-  insurance      Insurance?
-  appointments   Appointment[]
-  consultations  Consultation[]
-  medicalRecords MedicalRecord[]
+  insurance        Insurance?
+  appointments     Appointment[]
+  consultations    Consultation[]
+  medicalRecords   MedicalRecord[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("patients")
 }
 
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
 // =====================================================
-// MÉDECINS
+// MÉDECINS CORRIGÉS
 // =====================================================
 
 model Doctor {
-  id              String   @id @default(uuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  licenseNumber   String   @unique
-  specialty       String
-  subSpecialty    String?
-  experience      Int // années d'expérience
-  consultationFee Decimal
-  workingHours    Json // horaires de travail
-  education       String
-  certifications  String[]
-  languages       String[] @default(["Français"])
-
+  id                String              @id @default(uuid())
+  userId            String              @unique
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Identification professionnelle
+  licenseNumber     String              @unique
+  
+  // Spécialités - CORRIGÉ
+  specialty         MedicalSpecialty    // ÉTAIT mainSpecialty
+  subSpecialty      String?             // AJOUTÉ pour seed
+  
+  // Localisation et exercice
+  establishmentId   String              // AJOUTÉ
+  establishment     Establishment       @relation(fields: [establishmentId], references: [id])
+  
+  // Expérience - CORRIGÉ
+  experienceYears   Int                 // AJOUTÉ
+  education         String              // AJOUTÉ
+  bio               String?             // AJOUTÉ
+  
+  // Tarification - SIMPLIFIÉ pour correspondre au seed
+  consultationFee   Decimal             // ÉTAIT generalConsultationFee + specialistConsultationFee
+  
+  // Paramètres culturels
+  languagesSpoken   LanguageSpoken[]    @default([FRANCAIS, WOLOF])
+  
+  // Disponibilités
+  isActive          Boolean             @default(true) // ÉTAIT isAvailable
+  
   // Relations
-  establishment   Establishment        @relation(fields: [establishmentId], references: [id])
-  establishmentId String
-  appointments    Appointment[]
-  consultations   Consultation[]
-  availabilities  DoctorAvailability[]
+  appointments      Appointment[]
+  consultations     Consultation[]
+  availabilities    DoctorAvailability[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("doctors")
 }
 
 // =====================================================
-// ASSUREURS
+// ASSUREURS CORRIGÉS
 // =====================================================
 
 model Insurer {
-  id                 String @id @default(uuid())
-  userId             String @unique
-  user               User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyName        String
-  agentNumber        String @unique
-  authorizationLevel String // JUNIOR, SENIOR, SUPERVISOR
-
+  id             String @id @default(uuid())
+  userId         String @unique
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Informations agent - CORRIGÉ
+  companyId      String
+  company        InsuranceCompany @relation(fields: [companyId], references: [id])
+  licenseNumber  String @unique   // ÉTAIT agentNumber
+  department     String?          // AJOUTÉ
+  
   // Relations
-  insurancePlans Insurance[]
+  insurances     Insurance[]      // ÉTAIT insurancePlans
+
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("insurers")
 }
 
 // =====================================================
-// RENDEZ-VOUS
+// COMPAGNIES D'ASSURANCE CORRIGÉES
+// =====================================================
+
+model InsuranceCompany {
+  id            String        @id @default(uuid())
+  name          String        @unique
+  
+  // Coordonnées réelles
+  address       String
+  phone         String
+  email         String
+  website       String?
+  
+  // Géographie - CORRIGÉ
+  regionsServed SenegalRegion[]
+  
+  // Relations
+  agents        Insurer[]
+  insurancePlans InsurancePlanDetails[]
+  policyHolders Insurance[]
+  
+  isActive      Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("insurance_companies")
+}
+
+model InsurancePlanDetails {
+  id                String        @id @default(uuid())
+  companyId         String
+  planType          InsurancePlan
+  name              String
+  description       String?
+  
+  // Tarification - CORRIGÉ pour correspondre au seed
+  monthlyPremium    Decimal
+  annualLimit       Decimal       // ÉTAIT annualCeiling
+  copayment         Decimal       @default(0) // ÉTAIT annualDeductible
+  coveragePercentage Int          // AJOUTÉ pour seed
+  benefits          String[]      @default([]) // AJOUTÉ
+  exclusions        String[]      @default([]) // AJOUTÉ
+  
+  // Relations
+  company     InsuranceCompany @relation(fields: [companyId], references: [id])
+  insurances  Insurance[]
+  
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("insurance_plan_details")
+}
+
+// =====================================================
+// ÉTABLISSEMENTS CORRIGÉS
+// =====================================================
+
+model Establishment {
+  id          String           @id @default(uuid())
+  name        String
+  type        EstablishmentType
+  
+  // Localisation Sénégal
+  region      SenegalRegion
+  city        String
+  address     String
+  
+  // Contact
+  phone       String
+  email       String?
+  website     String?
+  
+  // Caractéristiques - CORRIGÉ
+  capacity    Int?             // ÉTAIT bedCapacity
+  
+  // Relations
+  doctors     Doctor[]
+  appointments Appointment[]   // AJOUTÉ
+  
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("establishments")
+}
+
+// =====================================================
+// RENDEZ-VOUS CORRIGÉS
 // =====================================================
 
 model Appointment {
-  id        String            @id @default(uuid())
-  patientId String
-  doctorId  String
-  dateTime  DateTime
-  duration  Int               @default(30) // minutes
-  type      AppointmentType   @default(CONSULTATION)
-  status    AppointmentStatus @default(SCHEDULED)
-  reason    String
-  notes     String?
-  cost      Decimal
-  isUrgent  Boolean           @default(false)
+  id              String            @id @default(uuid())
+  patientId       String
+  doctorId        String
+  establishmentId String            // AJOUTÉ
+  
+  // Timing - CORRIGÉ
+  appointmentDate DateTime          // ÉTAIT dateTime
+  duration        Int               @default(30)
+  
+  type            AppointmentType   @default(CONSULTATION)
+  status          AppointmentStatus @default(SCHEDULED)
+  reason          String
+  notes           String?
+  cost            Decimal
+  isUrgent        Boolean           @default(false)
 
   // Relations
-  patient      Patient       @relation(fields: [patientId], references: [id])
-  doctor       Doctor        @relation(fields: [doctorId], references: [id])
-  consultation Consultation?
+  patient         Patient           @relation(fields: [patientId], references: [id])
+  doctor          Doctor            @relation(fields: [doctorId], references: [id])
+  establishment   Establishment     @relation(fields: [establishmentId], references: [id])
+  consultation    Consultation?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("appointments")
-}
-
-enum AppointmentType {
-  CONSULTATION
-  TELECONSULTATION
-  EMERGENCY
-  FOLLOWUP
-  SURGERY
-}
-
-enum AppointmentStatus {
-  SCHEDULED
-  CONFIRMED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-  NO_SHOW
 }
 
 // =====================================================
@@ -171,12 +404,12 @@ model Consultation {
   patientId     String
   doctorId      String
 
-  symptoms    String[]
-  examination String?
-  diagnosis   String?
-  treatment   String?
-  notes       String?
-  vitalSigns  Json? // tension, température, etc.
+  symptoms      String[]
+  examination   String?
+  diagnosis     String?
+  treatment     String?
+  notes         String?
+  vitalSigns    Json?
 
   // Relations
   appointment   Appointment    @relation(fields: [appointmentId], references: [id])
@@ -214,13 +447,6 @@ model Prescription {
   @@map("prescriptions")
 }
 
-enum PrescriptionStatus {
-  ACTIVE
-  COMPLETED
-  EXPIRED
-  CANCELLED
-}
-
 // =====================================================
 // ASSURANCE & FACTURATION
 // =====================================================
@@ -228,20 +454,26 @@ enum PrescriptionStatus {
 model Insurance {
   id            String   @id @default(uuid())
   patientId     String   @unique
-  insurerId     String // Ajout de cette ligne
-  companyName   String
+  insurerId     String
+  companyId     String
+  planId        String
+  
+  // Informations police
   policyNumber  String   @unique
-  planType      String // BASIC, STANDARD, PREMIUM
   startDate     DateTime
   endDate       DateTime
+  
+  // Paramètres financiers
   coverageLimit Decimal
   deductible    Decimal
   copayment     Decimal  @default(0)
 
   // Relations
-  patient Patient @relation(fields: [patientId], references: [id])
-  insurer Insurer @relation(fields: [insurerId], references: [id]) // Ajout de cette ligne
-  claims  Claim[]
+  patient         Patient              @relation(fields: [patientId], references: [id])
+  insurer         Insurer              @relation(fields: [insurerId], references: [id])
+  insuranceCompany InsuranceCompany    @relation(fields: [companyId], references: [id])
+  planDetails     InsurancePlanDetails @relation(fields: [planId], references: [id])
+  claims          Claim[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -270,14 +502,6 @@ model Invoice {
   @@map("invoices")
 }
 
-enum InvoiceStatus {
-  PENDING
-  PAID
-  PARTIALLY_PAID
-  OVERDUE
-  CANCELLED
-}
-
 model Claim {
   id              String      @id @default(uuid())
   insuranceId     String
@@ -299,49 +523,16 @@ model Claim {
   @@map("claims")
 }
 
-enum ClaimStatus {
-  SUBMITTED
-  UNDER_REVIEW
-  APPROVED
-  REJECTED
-  PAID
-}
-
 // =====================================================
-// ÉTABLISSEMENTS & INFRASTRUCTURE
+// INFRASTRUCTURE MÉDICALE
 // =====================================================
-
-model Establishment {
-  id      String            @id @default(uuid())
-  name    String
-  type    EstablishmentType
-  address String
-  phone   String
-  email   String
-  website String?
-
-  // Relations
-  doctors Doctor[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("establishments")
-}
-
-enum EstablishmentType {
-  HOSPITAL
-  CLINIC
-  PRIVATE_PRACTICE
-  HEALTH_CENTER
-}
 
 model DoctorAvailability {
   id        String  @id @default(uuid())
   doctorId  String
-  dayOfWeek Int // 0=Dimanche, 1=Lundi, etc.
-  startTime String // Format HH:mm
-  endTime   String // Format HH:mm
+  dayOfWeek Int
+  startTime String
+  endTime   String
   isActive  Boolean @default(true)
 
   // Relations
@@ -353,7 +544,7 @@ model DoctorAvailability {
 model MedicalRecord {
   id        String   @id @default(uuid())
   patientId String
-  type      String // "LAB_RESULT", "IMAGING", "VACCINATION", etc.
+  type      String
   title     String
   content   String
   fileUrl   String?
