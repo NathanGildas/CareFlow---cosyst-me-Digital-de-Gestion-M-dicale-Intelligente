@@ -1,119 +1,116 @@
-// backend/src/middlewares/errorHandler.ts - TYPES CORRIGÉS
+// src/middlewares/errorHandler.ts
 import { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
-import { logger } from "../utils/logger";
 
-// =====================================================
-// TYPES D'ERREURS
-// =====================================================
-
-interface AppError extends Error {
+/**
+ * Interface pour les erreurs personnalisées
+ */
+interface CustomError extends Error {
   statusCode?: number;
   code?: string;
-  details?: any;
+  errors?: any;
 }
 
-// =====================================================
-// WRAPPER ASYNC POUR CONTROLLERS
-// =====================================================
-
-export const errorHandler = (fn: Function) => {
-  return async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> => {
-    try {
-      // Vérification des erreurs de validation
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(400).json({
-          success: false,
-          message: "Erreurs de validation",
-          errors: errors.array(),
-        });
-        return;
-      }
-
-      // Exécution du controller
-      await fn(req, res, next);
-    } catch (error) {
-      next(error);
-    }
-  };
-};
-
-// =====================================================
-// MIDDLEWARE GLOBAL DE GESTION D'ERREURS
-// =====================================================
-
-export const globalErrorHandler = (
-  error: AppError,
+/**
+ * Middleware de gestion des erreurs globales
+ */
+export const errorHandler = (
+  err: CustomError,
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  logger.error(`Error: ${error.message}`);
-  logger.error(`Stack: ${error.stack}`);
+  let error = { ...err };
+  error.message = err.message;
 
-  // Erreur base de données Prisma
-  if (error.code === "P2002") {
-    res.status(409).json({
-      success: false,
-      message: "Conflit de données - enregistrement déjà existant",
-      code: error.code,
-    });
-    return;
+  // Log de l'erreur pour le debugging
+  console.error("🚨 Erreur:", err);
+
+  // Erreur de validation Mongoose/Prisma
+  if (err.name === "ValidationError") {
+    const message = "Données de validation invalides";
+    error = {
+      ...error,
+      statusCode: 400,
+      message,
+    };
+  }
+
+  // Erreur de duplication (unique constraint)
+  if (err.code === "P2002") {
+    const message = "Ressource déjà existante";
+    error = {
+      ...error,
+      statusCode: 409,
+      message,
+    };
+  }
+
+  // Erreur de ressource non trouvée
+  if (err.code === "P2025") {
+    const message = "Ressource non trouvée";
+    error = {
+      ...error,
+      statusCode: 404,
+      message,
+    };
   }
 
   // Erreur JWT
-  if (error.name === "JsonWebTokenError") {
-    res.status(401).json({
-      success: false,
-      message: "Token JWT invalide",
-    });
-    return;
+  if (err.name === "JsonWebTokenError") {
+    const message = "Token invalide";
+    error = {
+      ...error,
+      statusCode: 401,
+      message,
+    };
   }
 
-  if (error.name === "TokenExpiredError") {
-    res.status(401).json({
-      success: false,
-      message: "Token JWT expiré",
-    });
-    return;
+  // Erreur JWT expiré
+  if (err.name === "TokenExpiredError") {
+    const message = "Token expiré";
+    error = {
+      ...error,
+      statusCode: 401,
+      message,
+    };
   }
 
-  // Erreur de validation
-  if (error.name === "ValidationError") {
-    res.status(400).json({
-      success: false,
-      message: "Erreur de validation",
-      details: error.details,
-    });
-    return;
-  }
-
-  // Erreur générique
-  const statusCode = error.statusCode || 500;
-  const message = error.message || "Erreur interne du serveur";
-
-  res.status(statusCode).json({
+  res.status(error.statusCode || 500).json({
     success: false,
-    message,
+    message: error.message || "Erreur serveur interne",
     ...(process.env.NODE_ENV === "development" && {
-      stack: error.stack,
-      details: error.details,
+      stack: err.stack,
+      details: err,
     }),
   });
 };
 
-// =====================================================
-// MIDDLEWARE 404 NOT FOUND
-// =====================================================
+/**
+ * Utilitaire asyncHandler pour gérer les erreurs async/await
+ */
+export const asyncHandler = (fn: Function) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+};
 
-export const notFoundHandler = (req: Request, res: Response): void => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.method} ${req.originalUrl} non trouvée`,
-  });
+/**
+ * Middleware 404 pour les routes non trouvées
+ */
+export const notFound = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const error = new Error(
+    `Ressource non trouvée - ${req.originalUrl}`
+  ) as CustomError;
+  error.statusCode = 404;
+  next(error);
+};
+
+export default {
+  errorHandler,
+  asyncHandler,
+  notFound,
 };

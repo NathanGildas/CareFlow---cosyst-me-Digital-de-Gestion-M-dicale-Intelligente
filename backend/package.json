@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend API pour CareFlow Sénégal - Plateforme e-santé",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
@@ -12,18 +12,40 @@
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force",
     "db:seed": "ts-node prisma/seed.ts",
+    "db:deploy": "prisma migrate deploy",
     "lint": "eslint src --ext .ts",
-    "format": "prettier --write 'src/**/*.ts'"
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write 'src/**/*.ts'",
+    "test": "echo \"Tests à implémenter\" && exit 0",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "api:docs": "echo \"Documentation API disponible sur http://localhost:4000/api-docs\"",
+    "health": "curl http://localhost:4000/health || echo \"Serveur non démarré\""
   },
   "keywords": [
     "healthcare",
     "medical",
     "api",
-    "typescript"
+    "typescript",
+    "senegal",
+    "e-health",
+    "insurance",
+    "appointments",
+    "prisma",
+    "express"
   ],
-  "author": "Nathan Aklikokou",
+  "author": {
+    "name": "Nathan Aklikokou",
+    "email": "nathan@careflow.sn",
+    "url": "https://github.com/careflow-senegal"
+  },
   "license": "MIT",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "@prisma/client": "^6.10.1",
     "bcryptjs": "^3.0.2",
@@ -41,7 +63,11 @@
     "multer": "^2.0.1",
     "redis": "^5.5.6",
     "sharp": "^0.34.2",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -55,6 +81,9 @@
     "@types/multer": "^1.4.13",
     "@types/node": "^24.0.3",
     "@types/socket.io": "^3.0.1",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui": "^5.21.1",
+    "@types/swagger-ui-express": "^4.1.8",
     "@types/uuid": "^10.0.0",
     "@types/validator": "^13.15.2",
     "@typescript-eslint/eslint-plugin": "^8.34.0",
@@ -65,5 +94,34 @@
     "prisma": "^6.10.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/careflow-senegal/backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/careflow-senegal/backend/issues"
+  },
+  "homepage": "https://careflow.sn",
+  "prettier": {
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 80,
+    "tabWidth": 2
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@typescript-eslint/recommended"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "prefer-const": "error"
+    }
   }
 }

@@ -7,22 +7,22 @@ const logger_1 = require("./logger");
 const globalForPrisma = globalThis;
 exports.prisma = globalForPrisma.prisma ??
     new client_1.PrismaClient({
-        log: ["query", "error", "warn"],
+        log: ['query', 'error', 'warn'],
     });
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
     globalForPrisma.prisma = exports.prisma;
 }
 // Test de connexion
 async function connectDB() {
     try {
         await exports.prisma.$connect();
-        logger_1.logger.success("Database connected successfully");
+        logger_1.logger.info('Database connected successfully');
         // Test simple
         await exports.prisma.user.findFirst();
-        logger_1.logger.info("Database tables accessible");
+        logger_1.logger.info('Database tables accessible');
     }
     catch (error) {
-        logger_1.logger.error("Database connection failed:", error);
+        logger_1.logger.error('Database connection failed:', error);
         throw error;
     }
 }

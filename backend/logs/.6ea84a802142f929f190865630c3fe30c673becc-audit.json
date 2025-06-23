@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\Gildas\\Documents\\careflow\\backend\\logs\\.6ea84a802142f929f190865630c3fe30c673becc-audit.json",
+    "files": [
+        {
+            "date": 1750684746882,
+            "name": "C:\\Users\\Gildas\\Documents\\careflow\\backend\\logs\\careflow-2025-06-23.log",
+            "hash": "4436cea6624b420207ae6873a143b58c72d35996699f709678b48a48fb50c331"
+        }
+    ],
+    "hashType": "sha256"
+}

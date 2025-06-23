@@ -1,10 +1,27 @@
 import { Request, Response, NextFunction } from "express";
-interface AppError extends Error {
+/**
+ * Interface pour les erreurs personnalisées
+ */
+interface CustomError extends Error {
     statusCode?: number;
     code?: string;
-    details?: any;
+    errors?: any;
 }
-export declare const errorHandler: (fn: Function) => (req: Request, res: Response, next: NextFunction) => Promise<void>;
-export declare const globalErrorHandler: (error: AppError, req: Request, res: Response, next: NextFunction) => void;
-export declare const notFoundHandler: (req: Request, res: Response) => void;
-export {};
+/**
+ * Middleware de gestion des erreurs globales
+ */
+export declare const errorHandler: (err: CustomError, req: Request, res: Response, next: NextFunction) => void;
+/**
+ * Utilitaire asyncHandler pour gérer les erreurs async/await
+ */
+export declare const asyncHandler: (fn: Function) => (req: Request, res: Response, next: NextFunction) => void;
+/**
+ * Middleware 404 pour les routes non trouvées
+ */
+export declare const notFound: (req: Request, res: Response, next: NextFunction) => void;
+declare const _default: {
+    errorHandler: (err: CustomError, req: Request, res: Response, next: NextFunction) => void;
+    asyncHandler: (fn: Function) => (req: Request, res: Response, next: NextFunction) => void;
+    notFound: (req: Request, res: Response, next: NextFunction) => void;
+};
+export default _default;

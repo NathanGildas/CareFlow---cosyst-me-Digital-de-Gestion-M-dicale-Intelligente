@@ -1,36 +1,81 @@
-import util from "util";
+// ===================================================================
+// FICHIER: /src/utils/logger.ts
+// Logger Winston pour CareFlow
+// ===================================================================
 
-export class Logger {
-  static info(message: string, ...args: any[]) {
-    console.log(`🔵 [INFO] ${new Date().toISOString()} - ${message}`, ...args);
-  }
+import winston from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import path from 'path';
 
-  static error(message: string, ...args: any[]) {
-    console.error(
-      `🔴 [ERROR] ${new Date().toISOString()} - ${message}`,
-      ...args
-    );
-  }
+// Configuration des formats
+const logFormat = winston.format.combine(
+  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  winston.format.errors({ stack: true }),
+  winston.format.json()
+);
 
-  static warn(message: string, ...args: any[]) {
-    console.warn(`🟡 [WARN] ${new Date().toISOString()} - ${message}`, ...args);
-  }
+const consoleFormat = winston.format.combine(
+  winston.format.colorize(),
+  winston.format.timestamp({ format: 'HH:mm:ss' }),
+  winston.format.printf(({ timestamp, level, message, ...meta }) => {
+    return `${timestamp} [${level}]: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`;
+  })
+);
 
-  static success(message: string, ...args: any[]) {
-    console.log(
-      `🟢 [SUCCESS] ${new Date().toISOString()} - ${message}`,
-      ...args
-    );
-  }
+// Assurer que le dossier logs existe
+const logsDir = path.join(process.cwd(), 'logs');
 
-  static debug(message: string, obj?: any) {
-    if (process.env.NODE_ENV === "development") {
-      console.log(`🔍 [DEBUG] ${new Date().toISOString()} - ${message}`);
-      if (obj) {
-        console.log(util.inspect(obj, { colors: true, depth: 3 }));
-      }
-    }
-  }
+// Transport pour fichiers rotatifs
+const fileRotateTransport = new DailyRotateFile({
+  filename: path.join(logsDir, 'careflow-%DATE%.log'),
+  datePattern: 'YYYY-MM-DD',
+  maxSize: '20m',
+  maxFiles: '14d',
+  createSymlink: true,
+  symlinkName: 'careflow-current.log',
+});
+
+// Transport pour erreurs
+const errorTransport = new DailyRotateFile({
+  filename: path.join(logsDir, 'careflow-error-%DATE%.log'),
+  datePattern: 'YYYY-MM-DD',
+  level: 'error',
+  maxSize: '20m',
+  maxFiles: '30d',
+  createSymlink: true,
+  symlinkName: 'careflow-error-current.log',
+});
+
+// Configuration du logger principal
+const logger = winston.createLogger({
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  format: logFormat,
+  transports: [fileRotateTransport, errorTransport],
+  exceptionHandlers: [
+    new winston.transports.File({
+      filename: path.join(logsDir, 'exceptions.log'),
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+    }),
+  ],
+  rejectionHandlers: [
+    new winston.transports.File({
+      filename: path.join(logsDir, 'rejections.log'),
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+    }),
+  ],
+});
+
+// En développement, ajouter console
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: consoleFormat,
+    })
+  );
 }
 
-export const logger = Logger;
+// Export par défaut et nommé
+export { logger };
+export default logger;
