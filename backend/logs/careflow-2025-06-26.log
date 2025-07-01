@@ -1,0 +1,36 @@
+{"level":"info","message":"Database connected successfully","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-06-26 12:20:07"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-06-26 12:21:59"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-06-26 13:33:40"}
+{"level":"info","message":"::1 - - [26/Jun/2025:13:46:39 +0000] \"POST /api/auth/login HTTP/1.1\" 200 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","timestamp":"2025-06-26 13:46:39"}
+{"level":"info","message":"::1 - - [26/Jun/2025:17:01:52 +0000] \"GET /api/auth/profile HTTP/1.1\" 200 296 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","timestamp":"2025-06-26 17:01:52"}
+{"level":"info","message":"::1 - - [26/Jun/2025:17:01:52 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36\"","timestamp":"2025-06-26 17:01:52"}

@@ -3,11 +3,11 @@
 // Middleware d'authentification JWT pour CareFlow
 // ===================================================================
 
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { Role } from "@prisma/client";
-import prisma from "../utils/prisma";
-import { logger } from "../utils/logger";
+import { Request, Response, NextFunction } from 'express';
+import * as jwt from 'jsonwebtoken';
+import { Role } from '@prisma/client';
+import prisma from '../utils/prisma';
+import { logger } from '../utils/logger';
 
 // Extension de l'interface Request pour inclure l'utilisateur
 declare global {
@@ -51,7 +51,7 @@ export const authenticateToken = async (
     // Récupération du token depuis l'en-tête Authorization
     const authHeader = req.headers.authorization;
     const token =
-      authHeader && authHeader.startsWith("Bearer ")
+      authHeader && authHeader.startsWith('Bearer ')
         ? authHeader.slice(7)
         : null;
 
@@ -59,7 +59,7 @@ export const authenticateToken = async (
       res.status(401).json({
         success: false,
         message: "Token d'authentification manquant",
-        code: "MISSING_TOKEN",
+        code: 'MISSING_TOKEN',
       });
       return;
     }
@@ -72,7 +72,7 @@ export const authenticateToken = async (
       );
       res.status(500).json({
         success: false,
-        message: "Erreur de configuration du serveur",
+        message: 'Erreur de configuration du serveur',
       });
       return;
     }
@@ -81,15 +81,15 @@ export const authenticateToken = async (
     try {
       decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
     } catch (jwtError: any) {
-      let message = "Token invalide";
-      let code = "INVALID_TOKEN";
+      let message = 'Token invalide';
+      let code = 'INVALID_TOKEN';
 
-      if (jwtError.name === "TokenExpiredError") {
-        message = "Token expiré";
-        code = "EXPIRED_TOKEN";
-      } else if (jwtError.name === "JsonWebTokenError") {
-        message = "Format de token invalide";
-        code = "MALFORMED_TOKEN";
+      if (jwtError.name === 'TokenExpiredError') {
+        message = 'Token expiré';
+        code = 'EXPIRED_TOKEN';
+      } else if (jwtError.name === 'JsonWebTokenError') {
+        message = 'Format de token invalide';
+        code = 'MALFORMED_TOKEN';
       }
 
       res.status(401).json({
@@ -116,8 +116,8 @@ export const authenticateToken = async (
     if (!user) {
       res.status(401).json({
         success: false,
-        message: "Utilisateur non trouvé",
-        code: "USER_NOT_FOUND",
+        message: 'Utilisateur non trouvé',
+        code: 'USER_NOT_FOUND',
       });
       return;
     }
@@ -125,8 +125,8 @@ export const authenticateToken = async (
     if (!user.isActive) {
       res.status(401).json({
         success: false,
-        message: "Compte utilisateur désactivé",
-        code: "USER_INACTIVE",
+        message: 'Compte utilisateur désactivé',
+        code: 'USER_INACTIVE',
       });
       return;
     }
@@ -138,8 +138,8 @@ export const authenticateToken = async (
       );
       res.status(401).json({
         success: false,
-        message: "Token obsolète, veuillez vous reconnecter",
-        code: "STALE_TOKEN",
+        message: 'Token obsolète, veuillez vous reconnecter',
+        code: 'STALE_TOKEN',
       });
       return;
     }
@@ -172,8 +172,8 @@ export const requireRole = (...allowedRoles: Role[]) => {
     if (!req.user) {
       res.status(401).json({
         success: false,
-        message: "Authentification requise",
-        code: "AUTHENTICATION_REQUIRED",
+        message: 'Authentification requise',
+        code: 'AUTHENTICATION_REQUIRED',
       });
       return;
     }
@@ -181,8 +181,8 @@ export const requireRole = (...allowedRoles: Role[]) => {
     if (!allowedRoles.includes(req.user.role)) {
       res.status(403).json({
         success: false,
-        message: `Accès refusé. Rôles autorisés: ${allowedRoles.join(", ")}`,
-        code: "INSUFFICIENT_PERMISSIONS",
+        message: `Accès refusé. Rôles autorisés: ${allowedRoles.join(', ')}`,
+        code: 'INSUFFICIENT_PERMISSIONS',
         userRole: req.user.role,
         allowedRoles,
       });
@@ -198,28 +198,28 @@ export const requireRole = (...allowedRoles: Role[]) => {
 // ===================================================================
 
 // Middleware pour les administrateurs uniquement
-export const requireAdmin = requireRole("ADMIN");
+export const requireAdmin = requireRole('ADMIN');
 
 // Middleware pour les médecins uniquement
-export const requireDoctor = requireRole("DOCTOR");
+export const requireDoctor = requireRole('DOCTOR');
 
 // Middleware pour les patients uniquement
-export const requirePatient = requireRole("PATIENT");
+export const requirePatient = requireRole('PATIENT');
 
 // Middleware pour les assureurs uniquement
-export const requireInsurer = requireRole("INSURER");
+export const requireInsurer = requireRole('INSURER');
 
 // Middleware pour les professionnels de santé (médecins + admin)
-export const requireHealthcareProvider = requireRole("DOCTOR", "ADMIN");
+export const requireHealthcareProvider = requireRole('DOCTOR', 'ADMIN');
 
 // Middleware pour les gestionnaires (assureurs + admin)
-export const requireManager = requireRole("INSURER", "ADMIN");
+export const requireManager = requireRole('INSURER', 'ADMIN');
 
 // ===================================================================
 // MIDDLEWARE DE VÉRIFICATION DE PROPRIÉTÉ
 // ===================================================================
 
-export const requireOwnership = (resourceIdParam: string = "id") => {
+export const requireOwnership = (resourceIdParam: string = 'id') => {
   return async (
     req: Request,
     res: Response,
@@ -229,7 +229,7 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
       if (!req.user) {
         res.status(401).json({
           success: false,
-          message: "Authentification requise",
+          message: 'Authentification requise',
         });
         return;
       }
@@ -239,18 +239,18 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
       const userRole = req.user.role;
 
       // Les admins ont accès à tout
-      if (userRole === "ADMIN") {
+      if (userRole === 'ADMIN') {
         next();
         return;
       }
 
       // Vérification selon le type de ressource et le rôle
-      const resourceType = req.route.path.split("/")[1]; // Ex: 'patients', 'doctors'
+      const resourceType = req.route.path.split('/')[1]; // Ex: 'patients', 'doctors'
 
       switch (resourceType) {
-        case "patients":
+        case 'patients':
           // Un patient ne peut accéder qu'à ses propres données
-          if (userRole === "PATIENT") {
+          if (userRole === 'PATIENT') {
             const patient = await prisma.patient.findUnique({
               where: { id: resourceId },
               select: { userId: true },
@@ -259,16 +259,16 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
             if (!patient || patient.userId !== userId) {
               res.status(403).json({
                 success: false,
-                message: "Accès refusé à cette ressource patient",
+                message: 'Accès refusé à cette ressource patient',
               });
               return;
             }
           }
           break;
 
-        case "doctors":
+        case 'doctors':
           // Un médecin ne peut modifier que ses propres données
-          if (userRole === "DOCTOR") {
+          if (userRole === 'DOCTOR') {
             const doctor = await prisma.doctor.findUnique({
               where: { id: resourceId },
               select: { userId: true },
@@ -277,14 +277,14 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
             if (!doctor || doctor.userId !== userId) {
               res.status(403).json({
                 success: false,
-                message: "Accès refusé à cette ressource médecin",
+                message: 'Accès refusé à cette ressource médecin',
               });
               return;
             }
           }
           break;
 
-        case "appointments":
+        case 'appointments':
           // Vérification complexe pour les rendez-vous
           const appointment = await prisma.appointment.findUnique({
             where: { id: resourceId },
@@ -297,20 +297,20 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
           if (!appointment) {
             res.status(404).json({
               success: false,
-              message: "Rendez-vous non trouvé",
+              message: 'Rendez-vous non trouvé',
             });
             return;
           }
 
           const hasAccess =
-            (userRole === "PATIENT" && appointment.patient.userId === userId) ||
-            (userRole === "DOCTOR" && appointment.doctor.userId === userId) ||
-            userRole === "INSURER"; // Les assureurs peuvent voir les RDV pour facturation
+            (userRole === 'PATIENT' && appointment.patient.userId === userId) ||
+            (userRole === 'DOCTOR' && appointment.doctor.userId === userId) ||
+            userRole === 'INSURER'; // Les assureurs peuvent voir les RDV pour facturation
 
           if (!hasAccess) {
             res.status(403).json({
               success: false,
-              message: "Accès refusé à ce rendez-vous",
+              message: 'Accès refusé à ce rendez-vous',
             });
             return;
           }
@@ -321,7 +321,7 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
           if (resourceId !== userId) {
             res.status(403).json({
               success: false,
-              message: "Accès refusé à cette ressource",
+              message: 'Accès refusé à cette ressource',
             });
             return;
           }
@@ -329,10 +329,10 @@ export const requireOwnership = (resourceIdParam: string = "id") => {
 
       next();
     } catch (error) {
-      logger.error("Erreur dans la vérification de propriété:", error);
+      logger.error('Erreur dans la vérification de propriété:', error);
       res.status(500).json({
         success: false,
-        message: "Erreur interne du serveur",
+        message: 'Erreur interne du serveur',
       });
     }
   };
@@ -350,7 +350,7 @@ export const optionalAuth = async (
   try {
     const authHeader = req.headers.authorization;
     const token =
-      authHeader && authHeader.startsWith("Bearer ")
+      authHeader && authHeader.startsWith('Bearer ')
         ? authHeader.slice(7)
         : null;
 
@@ -393,12 +393,12 @@ export const optionalAuth = async (
       }
     } catch (jwtError) {
       // Token invalide, mais on continue sans erreur
-      logger.debug("Token invalide dans optionalAuth:", jwtError);
+      logger.debug('Token invalide dans optionalAuth:', jwtError);
     }
 
     next();
   } catch (error) {
-    logger.error("Erreur dans optionalAuth:", error);
+    logger.error('Erreur dans optionalAuth:', error);
     next(); // On continue malgré l'erreur
   }
 };
@@ -407,15 +407,23 @@ export const optionalAuth = async (
 // UTILITAIRE DE GÉNÉRATION DE TOKEN
 // ===================================================================
 
-export const generateTokens = (user: {
-  id: string;
-  email: string;
-  role: Role;
-  firstName: string;
-  lastName: string;
-}) => {
-  const JWT_SECRET = process.env.JWT_SECRET!;
+export const generateTokens = (
+  user: {
+    id: string;
+    email: string;
+    role: Role;
+    firstName: string;
+    lastName: string;
+  },
+  accessTokenExpiry: string = '24h',
+  refreshTokenExpiry: string = '7d'
+) => {
+  const JWT_SECRET = process.env.JWT_SECRET;
   const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || JWT_SECRET;
+
+  if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET non défini');
+  }
 
   const payload = {
     id: user.id,
@@ -425,24 +433,74 @@ export const generateTokens = (user: {
     lastName: user.lastName,
   };
 
-  const accessToken = jwt.sign(payload, JWT_SECRET, {
-    expiresIn: "24h", // Token principal valide 24h
-    issuer: "careflow-senegal",
-    audience: "careflow-users",
-  });
+  try {
+    // Utilisation explicite de jwt.sign avec cast de type si nécessaire
+    const accessToken = (jwt as any).sign(payload, JWT_SECRET, {
+      expiresIn: accessTokenExpiry,
+      issuer: 'careflow-senegal',
+      audience: 'careflow-users',
+    });
 
-  const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
-    expiresIn: "7d", // Refresh token valide 7 jours
-    issuer: "careflow-senegal",
-    audience: "careflow-users",
-  });
+    const refreshToken = (jwt as any).sign(payload, JWT_REFRESH_SECRET, {
+      expiresIn: refreshTokenExpiry,
+      issuer: 'careflow-senegal',
+      audience: 'careflow-users',
+    });
 
-  return {
-    accessToken,
-    refreshToken,
-    expiresIn: 24 * 60 * 60, // 24h en secondes
-    tokenType: "Bearer",
+    // Calculer expiresIn en secondes
+    let expiresInSeconds = 24 * 60 * 60; // défaut 24h
+    if (accessTokenExpiry.endsWith('d')) {
+      expiresInSeconds = parseInt(accessTokenExpiry) * 24 * 60 * 60;
+    } else if (accessTokenExpiry.endsWith('h')) {
+      expiresInSeconds = parseInt(accessTokenExpiry) * 60 * 60;
+    }
+
+    return {
+      accessToken,
+      refreshToken,
+      expiresIn: expiresInSeconds,
+      tokenType: 'Bearer',
+    };
+  } catch (error) {
+    console.error('Erreur génération tokens:', error);
+    throw new Error('Impossible de générer les tokens');
+  }
+};
+
+export const generateSingleToken = (
+  user: {
+    id: string;
+    email: string;
+    role: Role;
+    firstName: string;
+    lastName: string;
+  },
+  expiry: string = '24h'
+): string => {
+  const JWT_SECRET = process.env.JWT_SECRET;
+
+  if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET non défini');
+  }
+
+  const payload = {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    firstName: user.firstName,
+    lastName: user.lastName,
   };
+
+  try {
+    return (jwt as any).sign(payload, JWT_SECRET, {
+      expiresIn: expiry,
+      issuer: 'careflow-senegal',
+      audience: 'careflow-users',
+    });
+  } catch (error) {
+    console.error('Erreur génération token:', error);
+    throw new Error('Impossible de générer le token');
+  }
 };
 
 // ===================================================================
@@ -460,7 +518,7 @@ export const validateRefreshToken = async (
     if (!refreshToken) {
       res.status(400).json({
         success: false,
-        message: "Refresh token manquant",
+        message: 'Refresh token manquant',
       });
       return;
     }
@@ -489,7 +547,7 @@ export const validateRefreshToken = async (
       if (!user || !user.isActive) {
         res.status(401).json({
           success: false,
-          message: "Refresh token invalide",
+          message: 'Refresh token invalide',
         });
         return;
       }
@@ -506,14 +564,14 @@ export const validateRefreshToken = async (
     } catch (jwtError) {
       res.status(401).json({
         success: false,
-        message: "Refresh token expiré ou invalide",
+        message: 'Refresh token expiré ou invalide',
       });
     }
   } catch (error) {
-    logger.error("Erreur dans validateRefreshToken:", error);
+    logger.error('Erreur dans validateRefreshToken:', error);
     res.status(500).json({
       success: false,
-      message: "Erreur interne du serveur",
+      message: 'Erreur interne du serveur',
     });
   }
 };

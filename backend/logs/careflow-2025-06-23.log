@@ -79,3 +79,4 @@
 {"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-06-23 16:48:59"}
 {"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-06-23 16:48:59"}
 {"level":"info","message":"📚 Environment: development","timestamp":"2025-06-23 16:48:59"}
+{"level":"info","message":"SIGINT reçu, arrêt gracieux du serveur...","timestamp":"2025-06-23 17:16:47"}

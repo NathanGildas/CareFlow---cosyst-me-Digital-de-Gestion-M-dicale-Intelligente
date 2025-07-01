@@ -20,7 +20,7 @@ const router = express.Router();
 // Rate limiting pour les tentatives de connexion
 const loginRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // 5 tentatives max par IP
+  max: 80, // 5 tentatives max par IP
   message: {
     success: false,
     message: 'Trop de tentatives de connexion. Réessayez dans 15 minutes.',
@@ -32,7 +32,7 @@ const loginRateLimit = rateLimit({
 // Rate limiting pour les inscriptions
 const registerRateLimit = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 heure
-  max: 3, // 3 inscriptions max par IP
+  max: 80, // 3 inscriptions max par IP
   message: {
     success: false,
     message: "Trop d'inscriptions depuis cette IP. Réessayez dans 1 heure.",
