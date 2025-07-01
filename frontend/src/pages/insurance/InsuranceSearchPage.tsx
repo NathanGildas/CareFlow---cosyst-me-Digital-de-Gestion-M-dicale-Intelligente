@@ -1,27 +1,20 @@
-// src/pages/insurance/InsuranceSearchPage.tsx - Page principale de recherche d'assureurs
-import React, { useState, useEffect, useCallback } from "react";
+// src/pages/insurance/InsuranceSearchPage.tsx - Page principale de recherche d'assureurs (CORRIGÉE)
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Search,
   Filter,
   Grid,
   List,
-  //MapPin,
   Shield,
   AlertCircle,
   RefreshCw,
-  //Zap,
-  //TrendingUp,
 } from "lucide-react";
 import SearchFilters from "../../components/insurance/SearchFilters";
 import CompanyCard from "../../components/insurance/CompanyCard";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
-import Card, {
-  //CardHeader,
-  //CardTitle,
-  CardContent,
-} from "../../components/ui/Card";
+import Card, { CardContent } from "../../components/ui/Card";
 import InsuranceService from "../../services/insurance.service";
 import type {
   InsuranceCompany,
@@ -44,11 +37,16 @@ interface SearchState {
   isLoading: boolean;
   error: string | null;
   selectedPlans: string[];
+  initialized: boolean; // 🎯 AJOUT: Pour éviter les recherches multiples
 }
 
 const InsuranceSearchPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // 🎯 REFS pour éviter les boucles infinies
+  const initialLoadRef = useRef(false);
+  const lastFiltersRef = useRef<string>("");
 
   // États de la recherche
   const [searchState, setSearchState] = useState<SearchState>({
@@ -56,6 +54,7 @@ const InsuranceSearchPage: React.FC = () => {
     isLoading: false,
     error: null,
     selectedPlans: [],
+    initialized: false,
   });
 
   // États de l'interface
@@ -73,66 +72,97 @@ const InsuranceSearchPage: React.FC = () => {
     { type: "list", icon: List, label: "Liste" },
   ];
 
-  // Effectuer la recherche
-  const performSearch = useCallback(
-    async (
-      filters: InsuranceSearchFilters = currentFilters,
-      page: number = 1
-    ) => {
-      setSearchState((prev) => ({ ...prev, isLoading: true, error: null }));
+  // 🎯 FONCTION DE RECHERCHE OPTIMISÉE (sans useCallback pour éviter les dépendances)
+  const performSearch = async (
+    filters: InsuranceSearchFilters = {},
+    page: number = 1,
+    skipDuplicateCheck: boolean = false
+  ) => {
+    // 🎯 PRÉVENTION: Éviter les requêtes en doublon
+    const filtersString = JSON.stringify({ filters, page });
+    if (!skipDuplicateCheck && filtersString === lastFiltersRef.current) {
+      console.log("🔄 Recherche ignorée - identique à la précédente");
+      return;
+    }
+    lastFiltersRef.current = filtersString;
 
-      try {
-        const searchResults = await InsuranceService.searchPlans(
-          filters,
-          page,
-          20
-        );
+    console.log("🔍 Début recherche avec filtres:", filters, "page:", page);
 
-        setSearchState((prev) => ({
-          ...prev,
-          results: searchResults,
-          isLoading: false,
-        }));
+    setSearchState((prev) => ({
+      ...prev,
+      isLoading: true,
+      error: null,
+    }));
 
-        setCurrentPage(page);
-      } catch (error) {
-        console.error("Erreur de recherche:", error);
-        setSearchState((prev) => ({
-          ...prev,
-          error: error instanceof Error ? error.message : "Erreur de recherche",
-          isLoading: false,
-        }));
-      }
-    },
-    [currentFilters]
-  );
+    try {
+      const searchResults = await InsuranceService.searchPlans(
+        filters,
+        page,
+        20
+      );
 
-  // Initialiser les filtres depuis l'URL
+      console.log("✅ Recherche réussie:", searchResults);
+
+      setSearchState((prev) => ({
+        ...prev,
+        results: searchResults,
+        isLoading: false,
+        initialized: true,
+      }));
+
+      setCurrentPage(page);
+    } catch (error) {
+      console.error("❌ Erreur de recherche:", error);
+
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Erreur lors de la recherche d'assurance";
+
+      setSearchState((prev) => ({
+        ...prev,
+        error: errorMessage,
+        isLoading: false,
+        initialized: true,
+        results: null, // 🎯 IMPORTANT: Vider les résultats en cas d'erreur
+      }));
+    }
+  };
+
+  // 🎯 INITIALISATION DEPUIS URL (une seule fois)
   useEffect(() => {
-    const urlFilters: InsuranceSearchFilters = {};
+    if (initialLoadRef.current) return; // 🎯 Empêcher les exécutions multiples
+    initialLoadRef.current = true;
 
-    // Récupérer les paramètres d'URL
+    console.log("🚀 Initialisation de la page de recherche");
+
+    // Récupérer les filtres depuis l'URL
+    const urlFilters: InsuranceSearchFilters = {};
     const region = searchParams.get("region");
     const city = searchParams.get("city");
     const planType = searchParams.get("planType");
     const category = searchParams.get("category");
+    const companyId = searchParams.get("companyId");
 
     if (region) urlFilters.region = region;
     if (city) urlFilters.city = city;
     if (planType) urlFilters.planType = [planType as InsurancePlanType];
     if (category) urlFilters.planCategory = [category as InsurancePlanCategory];
+    if (companyId) urlFilters.companyIds = [companyId];
 
+    console.log("🔗 Filtres depuis URL:", urlFilters);
+
+    // Appliquer les filtres et effectuer la recherche
     setCurrentFilters(urlFilters);
 
-    // Effectuer la recherche initiale
-    if (Object.keys(urlFilters).length > 0) {
-      performSearch(urlFilters);
-    } else {
-      performSearch({});
-    }
-  }, [performSearch, searchParams]);
+    // 🎯 Recherche initiale avec timeout pour laisser React finir l'initialisation
+    setTimeout(() => {
+      performSearch(urlFilters, 1, true);
+    }, 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 🎯 DÉPENDANCES VIDES pour une seule exécution
 
-  // Mettre à jour l'URL quand les filtres changent
+  // 🎯 METTRE À JOUR L'URL (debounced)
   const updateUrlParams = useCallback(
     (filters: InsuranceSearchFilters) => {
       const params = new URLSearchParams();
@@ -151,38 +181,51 @@ const InsuranceSearchPage: React.FC = () => {
         }
       });
 
-      setSearchParams(params);
+      setSearchParams(params, { replace: true }); // 🎯 replace: true pour éviter l'historique
     },
     [setSearchParams]
   );
 
-  // Gérer les changements de filtres
+  // 🎯 GÉRER LES CHANGEMENTS DE FILTRES (debounced)
   const handleFiltersChange = useCallback(
     (newFilters: InsuranceSearchFilters) => {
+      console.log("🔧 Changement de filtres:", newFilters);
+
       setCurrentFilters(newFilters);
       updateUrlParams(newFilters);
-      performSearch(newFilters, 1);
+
+      // 🎯 Debounce pour éviter trop de requêtes
+      setTimeout(() => {
+        performSearch(newFilters, 1);
+      }, 300);
     },
-    [updateUrlParams, performSearch]
+    [updateUrlParams]
   );
 
-  // Réinitialiser les filtres
+  // 🎯 RÉINITIALISER LES FILTRES
   const handleFiltersReset = useCallback(() => {
+    console.log("🔄 Réinitialisation des filtres");
+
     const emptyFilters: InsuranceSearchFilters = {};
     setCurrentFilters(emptyFilters);
     setSearchParams(new URLSearchParams());
-    performSearch(emptyFilters, 1);
-  }, [performSearch, setSearchParams]);
+    setCurrentPage(1);
 
-  // Gérer la recherche par mot-clé
+    setTimeout(() => {
+      performSearch(emptyFilters, 1);
+    }, 100);
+  }, [setSearchParams]);
+
+  // 🎯 RECHERCHE PAR MOT-CLÉ
   const handleSearch = useCallback(() => {
-    const newFilters = { ...currentFilters };
-    // La recherche par mot-clé pourrait filtrer par nom de compagnie
-    // Pour l'instant on relance juste la recherche
-    performSearch(newFilters, 1);
-  }, [currentFilters, performSearch]);
+    console.log("🔍 Recherche par mot-clé:", searchQuery);
 
-  // Naviguer vers les détails d'une compagnie
+    // Pour l'instant, on relance juste la recherche avec les filtres actuels
+    // Dans une version future, on pourrait ajouter le searchQuery aux filtres
+    performSearch(currentFilters, 1);
+  }, [currentFilters, searchQuery]);
+
+  // 🎯 NAVIGATION VERS DÉTAILS COMPAGNIE
   const handleViewCompanyDetails = useCallback(
     (companyId: string) => {
       navigate(`/patient/insurance/details/${companyId}`);
@@ -190,26 +233,28 @@ const InsuranceSearchPage: React.FC = () => {
     [navigate]
   );
 
-  // Naviguer vers les plans d'une compagnie
+  // 🎯 NAVIGATION VERS PLANS COMPAGNIE
   const handleViewCompanyPlans = useCallback(
     (companyId: string) => {
-      navigate(`/patient/insurance/search?companyId=${companyId}`);
+      const newFilters = { ...currentFilters, companyIds: [companyId] };
+      setCurrentFilters(newFilters);
+      updateUrlParams(newFilters);
+      performSearch(newFilters, 1);
     },
-    [navigate]
+    [currentFilters, updateUrlParams]
   );
 
-  // Ajouter/retirer un plan de la sélection pour comparaison
+  // 🎯 GESTION SÉLECTION PLANS (pour comparaison future)
+  // const handleTogglePlanSelection = useCallback((planId: string) => {
+  //   setSearchState((prev) => ({
+  //     ...prev,
+  //     selectedPlans: prev.selectedPlans.includes(planId)
+  //       ? prev.selectedPlans.filter((id) => id !== planId)
+  //       : [...prev.selectedPlans, planId].slice(0, 4), // Max 4 plans
+  //   }));
+  // }, []);
 
-  //   const handleTogglePlanSelection = useCallback((planId: string) => {
-  //     setSearchState((prev) => ({
-  //       ...prev,
-  //       selectedPlans: prev.selectedPlans.includes(planId)
-  //         ? prev.selectedPlans.filter((id) => id !== planId)
-  //         : [...prev.selectedPlans, planId].slice(0, 4), // Max 4 plans à comparer
-  //     }));
-  //   }, []);
-
-  // Aller à la page de comparaison
+  // 🎯 ALLER À LA COMPARAISON
   const handleComparePlans = useCallback(() => {
     if (searchState.selectedPlans.length >= 2) {
       const planIds = searchState.selectedPlans.join(",");
@@ -217,7 +262,22 @@ const InsuranceSearchPage: React.FC = () => {
     }
   }, [searchState.selectedPlans, navigate]);
 
-  // Grouper les compagnies avec leurs plans
+  // 🎯 PAGINATION
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      console.log("📄 Changement de page:", newPage);
+      performSearch(currentFilters, newPage);
+    },
+    [currentFilters]
+  );
+
+  // 🎯 RETRY EN CAS D'ERREUR
+  const handleRetry = useCallback(() => {
+    console.log("🔄 Nouvelle tentative");
+    performSearch(currentFilters, currentPage, true);
+  }, [currentFilters, currentPage]);
+
+  // 🎯 GROUPER LES RÉSULTATS (mémorisé)
   const groupedResults = React.useMemo(() => {
     if (!searchState.results) return [];
 
@@ -243,66 +303,62 @@ const InsuranceSearchPage: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* En-tête de la page */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg shadow-lg p-6 text-white">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold flex items-center">
-              <Shield className="w-8 h-8 mr-3" />
-              Recherche d'Assurance Santé
-            </h1>
-            <p className="text-primary-100 mt-1">
-              Trouvez la meilleure couverture santé au Sénégal
-            </p>
-          </div>
-          <div className="hidden md:block">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="bg-white/10 rounded-lg p-3 text-center">
-                <div className="font-semibold">+50</div>
-                <div className="text-primary-200">Compagnies</div>
-              </div>
-              <div className="bg-white/10 rounded-lg p-3 text-center">
-                <div className="font-semibold">+200</div>
-                <div className="text-primary-200">Plans</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Barre de recherche et contrôles */}
+      {/* 🎯 EN-TÊTE DE LA PAGE */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-            {/* Recherche */}
-            <div className="flex-1 max-w-md">
-              <div className="relative">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 flex items-center">
+                <Shield className="w-6 h-6 mr-2 text-primary-600" />
+                Recherche d'Assurance Santé
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Trouvez la meilleure assurance santé au Sénégal
+              </p>
+            </div>
+
+            {/* 🎯 BARRE DE RECHERCHE */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
                 <Input
                   type="text"
                   placeholder="Rechercher une compagnie..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                  onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+                  className="w-64"
                 />
-                {searchQuery && (
-                  <Button
-                    onClick={() => handleSearch()}
-                    variant="primary"
-                    size="sm"
-                    className="absolute right-2 top-2"
-                  >
-                    <Search className="w-4 h-4" />
-                  </Button>
-                )}
+                <Button
+                  onClick={handleSearch}
+                  variant="primary"
+                  disabled={searchState.isLoading}
+                  className="flex items-center space-x-2"
+                >
+                  <Search className="w-4 h-4" />
+                  <span>Rechercher</span>
+                </Button>
               </div>
             </div>
+          </div>
 
-            {/* Contrôles d'affichage */}
+          {/* 🎯 BARRE D'OUTILS */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-6 pt-6 border-t border-gray-200">
             <div className="flex items-center space-x-4">
-              {/* Sélection de plans pour comparaison */}
+              {/* 🎯 COMPTEUR DE RÉSULTATS */}
+              <span className="text-sm text-gray-600">
+                {searchState.isLoading
+                  ? "Recherche en cours..."
+                  : searchState.results
+                  ? `${searchState.results.totalResults} résultat${
+                      searchState.results.totalResults > 1 ? "s" : ""
+                    } trouvé${searchState.results.totalResults > 1 ? "s" : ""}`
+                  : "Aucun résultat"}
+              </span>
+
+              {/* 🎯 PLANS SÉLECTIONNÉS POUR COMPARAISON */}
               {searchState.selectedPlans.length > 0 && (
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-primary-600">
                     {searchState.selectedPlans.length} plan
                     {searchState.selectedPlans.length > 1 ? "s" : ""}{" "}
                     sélectionné{searchState.selectedPlans.length > 1 ? "s" : ""}
@@ -317,8 +373,10 @@ const InsuranceSearchPage: React.FC = () => {
                   </Button>
                 </div>
               )}
+            </div>
 
-              {/* Toggle filtres */}
+            <div className="flex items-center space-x-4">
+              {/* 🎯 TOGGLE FILTRES */}
               <Button
                 onClick={() => setShowFilters(!showFilters)}
                 variant="outline"
@@ -329,7 +387,7 @@ const InsuranceSearchPage: React.FC = () => {
                 <span>Filtres</span>
               </Button>
 
-              {/* Mode d'affichage */}
+              {/* 🎯 MODE D'AFFICHAGE */}
               <div className="flex items-center border border-gray-300 rounded-lg">
                 {viewModes.map((mode) => (
                   <button
@@ -351,8 +409,9 @@ const InsuranceSearchPage: React.FC = () => {
         </CardContent>
       </Card>
 
+      {/* 🎯 CONTENU PRINCIPAL */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Filtres latéraux */}
+        {/* 🎯 FILTRES LATÉRAUX */}
         {showFilters && (
           <div className="lg:col-span-3">
             <SearchFilters
@@ -365,135 +424,140 @@ const InsuranceSearchPage: React.FC = () => {
           </div>
         )}
 
-        {/* Résultats */}
+        {/* 🎯 ZONE DE RÉSULTATS */}
         <div className={showFilters ? "lg:col-span-9" : "lg:col-span-12"}>
-          {/* État de chargement */}
-          {searchState.isLoading && (
+          {/* 🎯 ÉTAT DE CHARGEMENT */}
+          {searchState.isLoading && !searchState.initialized && (
             <Card>
               <CardContent className="p-12 text-center">
-                <RefreshCw className="w-8 h-8 animate-spin text-primary-600 mx-auto mb-4" />
-                <p className="text-gray-600">Recherche en cours...</p>
+                <RefreshCw className="w-8 h-8 text-primary-600 mx-auto mb-4 animate-spin" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Recherche en cours...
+                </h3>
+                <p className="text-gray-600">
+                  Nous recherchons les meilleures offres d'assurance pour vous
+                </p>
               </CardContent>
             </Card>
           )}
 
-          {/* Gestion des erreurs */}
+          {/* 🎯 GESTION D'ERREUR */}
           {searchState.error && (
             <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-3 text-red-600">
-                  <AlertCircle className="w-6 h-6" />
-                  <div>
-                    <h3 className="font-medium">Erreur de recherche</h3>
-                    <p className="text-sm mt-1">{searchState.error}</p>
-                  </div>
-                  <Button
-                    onClick={() => performSearch(currentFilters, currentPage)}
-                    variant="outline"
-                    size="sm"
-                  >
+              <CardContent className="p-12 text-center">
+                <AlertCircle className="w-16 h-16 text-red-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Erreur de recherche
+                </h3>
+                <p className="text-gray-600 mb-4">{searchState.error}</p>
+                <div className="flex items-center justify-center space-x-4">
+                  <Button onClick={handleRetry} variant="primary">
+                    <RefreshCw className="w-4 h-4 mr-2" />
                     Réessayer
+                  </Button>
+                  <Button onClick={handleFiltersReset} variant="outline">
+                    Réinitialiser
                   </Button>
                 </div>
               </CardContent>
             </Card>
           )}
 
-          {/* Résultats */}
-          {!searchState.isLoading &&
-            !searchState.error &&
-            searchState.results && (
-              <>
-                {/* En-tête des résultats */}
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-lg font-semibold text-gray-900">
-                      {searchState.results.totalResults} résultat
-                      {searchState.results.totalResults > 1 ? "s" : ""} trouvé
-                      {searchState.results.totalResults > 1 ? "s" : ""}
-                    </h2>
-                    <p className="text-sm text-gray-600">
-                      {searchState.results.companies.length} compagnie
-                      {searchState.results.companies.length > 1
-                        ? "s"
-                        : ""} • {searchState.results.plans.length} plan
-                      {searchState.results.plans.length > 1 ? "s" : ""}
+          {/* 🎯 RÉSULTATS */}
+          {searchState.results && !searchState.isLoading && (
+            <>
+              {groupedResults.length > 0 ? (
+                <div
+                  className={
+                    viewMode === "grid"
+                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
+                      : "space-y-4"
+                  }
+                >
+                  {groupedResults.map(({ company, plans }) => (
+                    <CompanyCard
+                      key={company.id}
+                      company={company}
+                      plansCount={plans.length}
+                      onViewDetails={handleViewCompanyDetails}
+                      onViewPlans={handleViewCompanyPlans}
+                      variant={viewMode === "list" ? "detailed" : "default"}
+                    />
+                  ))}
+                </div>
+              ) : (
+                // 🎯 AUCUN RÉSULTAT
+                <Card>
+                  <CardContent className="p-12 text-center">
+                    <Shield className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      Aucun résultat trouvé
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      Essayez de modifier vos critères de recherche ou élargir
+                      votre zone géographique
                     </p>
+                    <Button onClick={handleFiltersReset} variant="outline">
+                      Réinitialiser les filtres
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* 🎯 PAGINATION */}
+              {searchState.results.pagination.totalPages > 1 && (
+                <div className="flex items-center justify-center mt-8">
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={!searchState.results.pagination.hasPrev}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Précédent
+                    </Button>
+
+                    <span className="px-4 py-2 text-sm text-gray-600">
+                      Page {searchState.results.pagination.page} sur{" "}
+                      {searchState.results.pagination.totalPages}
+                    </span>
+
+                    <Button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={!searchState.results.pagination.hasNext}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Suivant
+                    </Button>
                   </div>
                 </div>
+              )}
+            </>
+          )}
 
-                {/* Liste des résultats */}
-                {groupedResults.length > 0 ? (
-                  <div
-                    className={`space-y-6 ${
-                      viewMode === "grid"
-                        ? "grid grid-cols-1 md:grid-cols-2 gap-6 space-y-0"
-                        : ""
-                    }`}
+          {/* 🎯 ÉTAT INITIAL (pas encore initialisé) */}
+          {!searchState.initialized &&
+            !searchState.isLoading &&
+            !searchState.error && (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <Shield className="w-16 h-16 text-primary-300 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Recherche d'Assurance Santé
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Utilisez les filtres pour trouver l'assurance qui vous
+                    convient
+                  </p>
+                  <Button
+                    onClick={() => performSearch({}, 1, true)}
+                    variant="primary"
                   >
-                    {groupedResults.map(({ company, plans }) => (
-                      <CompanyCard
-                        key={company.id}
-                        company={company}
-                        plansCount={plans.length}
-                        onViewDetails={handleViewCompanyDetails}
-                        onViewPlans={handleViewCompanyPlans}
-                        variant={viewMode === "list" ? "detailed" : "default"}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  // Aucun résultat
-                  <Card>
-                    <CardContent className="p-12 text-center">
-                      <Shield className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        Aucun résultat trouvé
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        Essayez de modifier vos critères de recherche
-                      </p>
-                      <Button onClick={handleFiltersReset} variant="outline">
-                        Réinitialiser les filtres
-                      </Button>
-                    </CardContent>
-                  </Card>
-                )}
-
-                {/* Pagination (si nécessaire) */}
-                {searchState.results.pagination.totalPages > 1 && (
-                  <div className="flex items-center justify-center mt-8">
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        onClick={() =>
-                          performSearch(currentFilters, currentPage - 1)
-                        }
-                        disabled={!searchState.results.pagination.hasPrev}
-                        variant="outline"
-                        size="sm"
-                      >
-                        Précédent
-                      </Button>
-
-                      <span className="px-4 py-2 text-sm text-gray-600">
-                        Page {searchState.results.pagination.page} sur{" "}
-                        {searchState.results.pagination.totalPages}
-                      </span>
-
-                      <Button
-                        onClick={() =>
-                          performSearch(currentFilters, currentPage + 1)
-                        }
-                        disabled={!searchState.results.pagination.hasNext}
-                        variant="outline"
-                        size="sm"
-                      >
-                        Suivant
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </>
+                    Voir toutes les assurances
+                  </Button>
+                </CardContent>
+              </Card>
             )}
         </div>
       </div>

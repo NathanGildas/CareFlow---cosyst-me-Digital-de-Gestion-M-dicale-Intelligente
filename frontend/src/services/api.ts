@@ -197,7 +197,7 @@ export interface SearchEstablishmentsRequest
 // ===== CONFIGURATION AXIOS =====
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -261,10 +261,7 @@ apiClient.interceptors.response.use(
 export class ApiService {
   // ===== AUTHENTIFICATION =====
 
-  async login(credentials: {
-    email: string;
-    password: string;
-  }): Promise<
+  async login(credentials: { email: string; password: string }): Promise<
     ApiResponse<{
       user: User;
       tokens: { accessToken: string; refreshToken: string; expiresIn: number };
@@ -283,9 +280,7 @@ export class ApiService {
     return response.data;
   }
 
-  async register(
-    userData: Record<string, unknown>
-  ): Promise<
+  async register(userData: Record<string, unknown>): Promise<
     ApiResponse<{
       user: User;
       tokens: { accessToken: string; refreshToken: string; expiresIn: number };
@@ -521,9 +516,7 @@ export class ApiService {
 
   // ===== NOTIFICATIONS =====
 
-  async getNotifications(
-    params?: PaginationParams
-  ): Promise<
+  async getNotifications(params?: PaginationParams): Promise<
     ApiResponse<
       PaginatedResponse<{
         id: string;

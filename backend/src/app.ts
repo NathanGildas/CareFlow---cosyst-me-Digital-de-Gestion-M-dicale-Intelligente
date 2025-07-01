@@ -21,6 +21,7 @@ import doctorRoutes from './routes/doctors';
 import appointmentRoutes from './routes/appointments';
 import referentialRoutes from './routes/referentials';
 import establishmentRoutes from './routes/establishments';
+import insuranceRoutes from './routes/insurance';
 
 const app = express();
 
@@ -199,6 +200,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
+
+// Routes des assurances (accès public)
+app.use('/api/insurance', insuranceRoutes);
 
 // ===================================================================
 // ROUTES UTILITAIRES SUPPLÉMENTAIRES
