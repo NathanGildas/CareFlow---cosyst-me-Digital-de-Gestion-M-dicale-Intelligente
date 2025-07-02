@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import { Role } from "@prisma/client";
+import { Request, Response, NextFunction } from 'express';
+import { Role } from '@prisma/client';
 declare global {
     namespace Express {
         interface Request {
@@ -29,10 +29,17 @@ export declare const generateTokens: (user: {
     role: Role;
     firstName: string;
     lastName: string;
-}) => {
-    accessToken: string;
-    refreshToken: string;
+}, accessTokenExpiry?: string, refreshTokenExpiry?: string) => {
+    accessToken: any;
+    refreshToken: any;
     expiresIn: number;
     tokenType: string;
 };
+export declare const generateSingleToken: (user: {
+    id: string;
+    email: string;
+    role: Role;
+    firstName: string;
+    lastName: string;
+}, expiry?: string) => string;
 export declare const validateRefreshToken: (req: Request, res: Response, next: NextFunction) => Promise<void>;

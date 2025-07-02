@@ -15,9 +15,12 @@ async function startServer() {
         // Démarrage du serveur
         const server = app_1.default.listen(PORT, () => {
             logger_1.logger.info(`🚀 CareFlow API started successfully`);
-            logger_1.logger.info(`📍 Server: http://localhost:${PORT}`);
-            logger_1.logger.info(`📊 Health: http://localhost:${PORT}/api/health`);
-            logger_1.logger.info(`🗄️  Database UI: http://localhost:5555`);
+            logger_1.logger.info(`📍 Server: http://localhost:${PORT}/api`);
+            logger_1.logger.info(`📊 Health: http://localhost:${PORT}/health`);
+            logger_1.logger.info(`📚 Referentials: http://localhost:${PORT}/api/referentials/regions`);
+            logger_1.logger.info(`🏥 Establishments: http://localhost:${PORT}/api/establishments`);
+            logger_1.logger.info(`📄 Documentation: http://localhost:${PORT}/api-docs`);
+            logger_1.logger.info(`🗄️ Database UI: http://localhost:5555`);
             logger_1.logger.info(`🏥 Admin Panel: http://localhost:8080`);
             logger_1.logger.info(`📚 Environment: ${process.env.NODE_ENV}`);
         });

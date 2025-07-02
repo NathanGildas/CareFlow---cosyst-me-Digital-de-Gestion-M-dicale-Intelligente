@@ -1,0 +1,312 @@
+{"level":"info","message":"::1 - - [02/Jul/2025:15:20:27 +0000] \"POST /api/auth/refresh HTTP/1.1\" 200 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:20:27"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:20:27 +0000] \"POST /api/auth/refresh HTTP/1.1\" 200 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:20:27"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:20:27 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:20:27"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:20:27 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:20:27"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:20:28 +0000] \"GET /api/insurance/plans/d7230589-b2c8-49a3-8776-fd5df40970b6 HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:20:28"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:20:28 +0000] \"GET /api/insurance/plans/d7230589-b2c8-49a3-8776-fd5df40970b6 HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:20:28"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:56:15 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:56:15"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:56:15 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:56:15"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:57:08 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:57:08"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:57:08 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:57:08"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:57:39 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:57:39"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:57:39 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:57:39"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:57:49 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:57:49"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:57:49 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:57:49"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:59:19 +0000] \"GET /api/insurance/plans/search?page=1&limit=20 HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:59:19"}
+{"level":"info","message":"::1 - - [02/Jul/2025:15:59:32 +0000] \"POST /api/auth/logout HTTP/1.1\" 404 261 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 15:59:32"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:01:08 +0000] \"POST /api/auth/register HTTP/1.1\" 201 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:01:08"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:01:35 +0000] \"GET /api/auth/profile HTTP/1.1\" 200 300 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:01:35"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:01:35 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:01:35"}
+{"level":"info","message":"SIGINT reçu, arrêt gracieux du serveur...","timestamp":"2025-07-02 16:03:42"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:17:02"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:17:32 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:17:32"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:17:32 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:17:32"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:17:41 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:17:41"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:17:41 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:17:41"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:18:39 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:18:39"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:18:39 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:18:39"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:19:38 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:19:38"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:19:38 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:19:38"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:20:35"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:21:05"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:21:13"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:21:40"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:22:24"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:23:46"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:24:16"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:24:35"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:24:50"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:25:03"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:25:16"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:25:31"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:25:43"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:25:55"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:26:08"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:26:19"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:26:30"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:26:44"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:27:14"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:27:25"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:27:38"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:27:58"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:28:26"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:29:35 +0000] \"POST /api/auth/logout HTTP/1.1\" 404 261 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:29:35"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:29:41 +0000] \"POST /api/auth/login HTTP/1.1\" 200 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:29:41"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:29:52 +0000] \"GET /api/insurance/plans/search?page=1&limit=20 HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:29:52"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:30:25 +0000] \"POST /api/auth/logout HTTP/1.1\" 404 261 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:30:25"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:30:34 +0000] \"POST /api/auth/login HTTP/1.1\" 200 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:30:34"}
+{"level":"info","message":"SIGINT reçu, arrêt gracieux du serveur...","timestamp":"2025-07-02 16:31:26"}
+{"level":"info","message":"Database connected successfully","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"Database tables accessible","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"🚀 CareFlow API started successfully","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"📍 Server: http://localhost:4000/api","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"📊 Health: http://localhost:4000/health","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"📚 Referentials: http://localhost:4000/api/referentials/regions","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"🏥 Establishments: http://localhost:4000/api/establishments","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"📄 Documentation: http://localhost:4000/api-docs","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"🗄️ Database UI: http://localhost:5555","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"🏥 Admin Panel: http://localhost:8080","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"📚 Environment: development","timestamp":"2025-07-02 16:31:46"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:32:19 +0000] \"GET /api/auth/profile HTTP/1.1\" 200 298 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:32:19"}
+{"level":"info","message":"::1 - - [02/Jul/2025:16:32:19 +0000] \"GET /api/auth/profile HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36\"","timestamp":"2025-07-02 16:32:19"}
+{"level":"info","message":"SIGINT reçu, arrêt gracieux du serveur...","timestamp":"2025-07-02 16:33:04"}

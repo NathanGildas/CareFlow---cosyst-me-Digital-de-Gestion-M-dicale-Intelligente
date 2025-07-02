@@ -28,7 +28,13 @@ import ProtectedRoute, {
 
 // Pages des dashboards
 import PatientDashboard from "./pages/patient/PatientDashboard";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard";
+import InsurerDashboard from "./pages/insurer/InsurerDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProfilePage from "./pages/ProfilePage";
+
+// Pages du module patient
+import AppointmentsPage from "./pages/patient/AppointmentsPage";
 
 // Pages du module d'assurance
 import InsuranceSearchPage from "./pages/insurance/InsuranceSearchPage";
@@ -104,14 +110,6 @@ const DashboardRedirect: React.FC = () => {
 };
 
 // Pages temporaires pour les autres sections (à développer plus tard)
-const AppointmentsPage: React.FC = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">Mes rendez-vous</h1>
-    <div className="bg-white rounded-lg shadow p-6">
-      <p className="text-gray-600">Gestion des rendez-vous à venir...</p>
-    </div>
-  </div>
-);
 
 const DoctorsPage: React.FC = () => (
   <div className="p-6">
@@ -131,46 +129,6 @@ const MedicalHistoryPage: React.FC = () => (
     </h1>
     <div className="bg-white rounded-lg shadow p-6">
       <p className="text-gray-600">Historique des consultations...</p>
-    </div>
-  </div>
-);
-
-// Dashboards pour les autres rôles (temporaires)
-const DoctorDashboard: React.FC = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">
-      Tableau de bord Médecin
-    </h1>
-    <div className="bg-white rounded-lg shadow p-6">
-      <p className="text-gray-600">
-        Bienvenue dans votre espace médecin CareFlow !
-      </p>
-    </div>
-  </div>
-);
-
-const InsurerDashboard: React.FC = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">
-      Tableau de bord Assureur
-    </h1>
-    <div className="bg-white rounded-lg shadow p-6">
-      <p className="text-gray-600">
-        Bienvenue dans votre espace assureur CareFlow !
-      </p>
-    </div>
-  </div>
-);
-
-const AdminDashboard: React.FC = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">
-      Tableau de bord Admin
-    </h1>
-    <div className="bg-white rounded-lg shadow p-6">
-      <p className="text-gray-600">
-        Bienvenue dans l'administration CareFlow !
-      </p>
     </div>
   </div>
 );

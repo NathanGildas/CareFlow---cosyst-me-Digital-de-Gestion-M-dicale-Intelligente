@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changePassword = exports.updateProfile = exports.getProfile = exports.refreshToken = exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const joi_1 = __importDefault(require("joi"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const client_1 = require("@prisma/client");
 const authMiddleware_1 = require("../middlewares/authMiddleware");
 const prisma = new client_1.PrismaClient();
@@ -42,6 +43,7 @@ const registerSchema = joi_1.default.object({
 const loginSchema = joi_1.default.object({
     email: joi_1.default.string().email().required(),
     password: joi_1.default.string().required(),
+    rememberMe: joi_1.default.boolean().optional(), // Ajouter ce champ optionnel
 });
 const refreshTokenSchema = joi_1.default.object({
     refreshToken: joi_1.default.string().required(),
@@ -99,28 +101,24 @@ const register = async (req, res) => {
                 createdAt: true,
             },
         });
-        // Génération des tokens
-        const token = (0, authMiddleware_1.generateTokens)({
+        // Génération des tokens (valeurs par défaut pour l'inscription)
+        const tokens = (0, authMiddleware_1.generateTokens)({
             id: user.id,
             email: user.email,
             role: user.role,
             firstName: user.firstName,
             lastName: user.lastName,
-        });
-        const refreshToken = (0, authMiddleware_1.generateTokens)({
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            firstName: user.firstName,
-            lastName: user.lastName,
-        });
+        }); // Utilise les valeurs par défaut (24h access, 7d refresh)
+        console.log(`✅ Inscription réussie pour: ${user.email}`);
         res.status(201).json({
             success: true,
             message: 'Inscription réussie',
             data: {
                 user,
-                token,
-                refreshToken,
+                token: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+                expiresIn: tokens.expiresIn,
+                tokenType: tokens.tokenType,
             },
         });
     }
@@ -145,10 +143,12 @@ const login = async (req, res) => {
             res.status(400).json({
                 success: false,
                 message: 'Email et mot de passe requis',
+                errors: error.details.map((detail) => detail.message),
             });
             return;
         }
-        const { email, password } = value;
+        const { email, password, rememberMe } = value;
+        console.log(`🔐 Connexion utilisateur: ${email} (Remember Me: ${rememberMe})`);
         // Recherche de l'utilisateur
         const user = await prisma.user.findUnique({
             where: { email },
@@ -186,30 +186,32 @@ const login = async (req, res) => {
             });
             return;
         }
-        // Génération des tokens
-        const token = (0, authMiddleware_1.generateTokens)({
+        // Définir la durée des tokens selon rememberMe
+        const accessTokenExpiry = rememberMe ? '30d' : '24h'; // 30 jours vs 24 heures
+        const refreshTokenExpiry = rememberMe ? '90d' : '7d'; // 90 jours vs 7 jours
+        console.log(`🔐 Génération tokens - Access: ${accessTokenExpiry}, Refresh: ${refreshTokenExpiry}`);
+        // Génération des tokens avec durées personnalisées
+        const tokens = (0, authMiddleware_1.generateTokens)({
             id: user.id,
             email: user.email,
             role: user.role,
             firstName: user.firstName,
             lastName: user.lastName,
-        });
-        const refreshToken = (0, authMiddleware_1.generateTokens)({
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            firstName: user.firstName,
-            lastName: user.lastName,
-        });
+        }, accessTokenExpiry, refreshTokenExpiry);
         // Retour des données (sans le mot de passe)
         const { password: _, ...userWithoutPassword } = user;
+        console.log(`✅ Connexion réussie pour: ${user.email} (Remember Me: ${rememberMe})`);
         res.status(200).json({
             success: true,
             message: 'Connexion réussie',
             data: {
                 user: userWithoutPassword,
-                token,
-                refreshToken,
+                token: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+                // Informations supplémentaires pour le frontend
+                expiresIn: tokens.expiresIn,
+                tokenType: tokens.tokenType,
+                rememberMe,
             },
         });
     }
@@ -233,32 +235,34 @@ const refreshToken = async (req, res) => {
             res.status(400).json({
                 success: false,
                 message: 'Refresh token requis',
+                errors: error.details.map((detail) => detail.message),
             });
             return;
         }
         const { refreshToken: token } = value;
         // Vérification du refresh token
-        const decoded = await (0, authMiddleware_1.validateRefreshToken)(req, res, token);
-        if (decoded === undefined ||
-            decoded === null ||
-            typeof decoded !== 'object' ||
-            !('userId' in decoded)) {
+        const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET;
+        let decoded;
+        try {
+            decoded = jsonwebtoken_1.default.verify(token, JWT_REFRESH_SECRET);
+        }
+        catch (jwtError) {
             res.status(401).json({
                 success: false,
                 message: 'Refresh token invalide ou expiré',
             });
             return;
         }
-        // Recherche de l'utilisateur
+        // Vérifier que l'utilisateur existe encore et est actif
         const user = await prisma.user.findUnique({
-            where: { id: decoded.userId },
+            where: { id: decoded.id },
             select: {
                 id: true,
                 email: true,
-                role: true,
-                isActive: true,
                 firstName: true,
                 lastName: true,
+                role: true,
+                isActive: true,
             },
         });
         if (!user || !user.isActive) {
@@ -268,27 +272,32 @@ const refreshToken = async (req, res) => {
             });
             return;
         }
-        // Génération d'un nouveau token
-        const newToken = (0, authMiddleware_1.generateTokens)({
+        // Générer de nouveaux tokens (durées par défaut car on ne sait pas si c'était "rememberMe")
+        const tokens = (0, authMiddleware_1.generateTokens)({
             id: user.id,
             email: user.email,
             role: user.role,
             firstName: user.firstName,
             lastName: user.lastName,
-        });
+        }); // Utilise les valeurs par défaut (24h access, 7d refresh)
+        console.log(`🔄 Token rafraîchi pour: ${user.email}`);
         res.status(200).json({
             success: true,
-            message: 'Token rafraîchi',
+            message: 'Token rafraîchi avec succès',
             data: {
-                token: newToken,
+                user,
+                token: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+                expiresIn: tokens.expiresIn,
+                tokenType: tokens.tokenType,
             },
         });
     }
     catch (error) {
-        console.error('Erreur refresh token:', error);
-        res.status(401).json({
+        console.error('Erreur rafraîchissement token:', error);
+        res.status(500).json({
             success: false,
-            message: 'Refresh token invalide ou expiré',
+            message: 'Erreur serveur lors du rafraîchissement',
         });
     }
 };
