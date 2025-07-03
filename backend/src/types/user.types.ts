@@ -1,5 +1,5 @@
-// src/types/user.types.ts - Types utilisateur backend
-import { Role } from './auth.types';
+// src/types/user.types.ts - Types utilisateur backend V2.0
+import { UserRole } from './auth.types';
 
 export interface CreateUserRequest {
   email: string;
@@ -7,7 +7,7 @@ export interface CreateUserRequest {
   firstName: string;
   lastName: string;
   phone?: string;
-  role: Role;
+  role: UserRole;
 }
 
 export interface UpdateUserRequest {
@@ -23,7 +23,7 @@ export interface UserResponse {
   firstName: string;
   lastName: string;
   phone?: string;
-  role: Role;
+  role: UserRole;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

@@ -210,7 +210,6 @@ model Patient {
   appointments      Appointment[]
   consultations     Consultation[]
   medicalRecords    MedicalRecord[]
-  medicalDocuments  MedicalDocument[]   // Documents médicaux du patient
   favoriteEstablishments PatientFavoriteEstablishment[]
 
   createdAt DateTime @default(now())
@@ -242,7 +241,6 @@ model PatientInsurance {
   patient         Patient               @relation(fields: [patientId], references: [id])
   insurancePlan   InsurancePlanDetails  @relation(fields: [planId], references: [id])
   claims          InsuranceClaim[]
-  appointments    Appointment[]         // RDV utilisant cette assurance
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -393,7 +391,6 @@ model Doctor {
   establishments    DoctorEstablishment[] // Peut exercer dans plusieurs établissements
   assignments       DoctorAssignment[]    // Créneaux assignés par établissement
   consultations     Consultation[]
-  appointments      Appointment[]         // RDV où le médecin est assigné
   
   isActive          Boolean             @default(true)
   createdAt DateTime @default(now())
@@ -509,7 +506,6 @@ model Appointment {
   assignment        DoctorAssignment?     @relation(fields: [assignmentId], references: [id])
   insurance         PatientInsurance?     @relation(fields: [insuranceId], references: [id])
   consultation      Consultation?
-  claim             InsuranceClaim?       // Réclamation d'assurance associée
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

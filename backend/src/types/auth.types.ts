@@ -1,10 +1,10 @@
-// src/types/auth.types.ts - Types d'authentification backend
-export type Role = 'PATIENT' | 'DOCTOR' | 'INSURER' | 'ADMIN';
+// src/types/auth.types.ts - Types d'authentification backend V2.0
+export type UserRole = 'PATIENT' | 'DOCTOR' | 'ESTABLISHMENT_ADMIN' | 'INSURER_AGENT' | 'SUPER_ADMIN';
 
 export interface AuthPayload {
   userId: string;
   email: string;
-  role: Role;
+  role: UserRole;
   iat?: number;
   exp?: number;
 }
@@ -21,7 +21,7 @@ export interface RegisterRequest {
   firstName: string;
   lastName: string;
   phone?: string;
-  role: Role;
+  role: UserRole;
   licenseNumber?: string;
   specialtyId?: string;
   companyId?: string;
@@ -37,7 +37,7 @@ export interface AuthResponse {
       email: string;
       firstName: string;
       lastName: string;
-      role: Role;
+      role: UserRole;
       isActive: boolean;
     };
     token: {

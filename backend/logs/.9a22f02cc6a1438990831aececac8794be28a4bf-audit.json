@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "/mnt/c/Users/Gildas/Documents/careflow/backend/logs/.9a22f02cc6a1438990831aececac8794be28a4bf-audit.json",
+    "files": [
+        {
+            "date": 1751546938398,
+            "name": "/mnt/c/Users/Gildas/Documents/careflow/backend/logs/careflow-error-2025-07-03.log",
+            "hash": "fd58c0106bdebad128b65845a5aef6f23b227c84eb80549ee847bfbeb71dfa8b"
+        }
+    ],
+    "hashType": "sha256"
+}

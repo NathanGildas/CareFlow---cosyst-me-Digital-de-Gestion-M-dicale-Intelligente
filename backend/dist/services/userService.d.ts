@@ -5,11 +5,12 @@ declare class UserService {
         password: string;
         firstName: string;
         lastName: string;
-        role: import(".prisma/client").$Enums.Role;
+        role: import(".prisma/client").$Enums.UserRole;
         createdAt: Date;
         phone: string | null;
         id: string;
         isActive: boolean;
+        lastLogin: Date | null;
         updatedAt: Date;
     }>;
     getUserById(id: string): Promise<{
@@ -17,11 +18,12 @@ declare class UserService {
         password: string;
         firstName: string;
         lastName: string;
-        role: import(".prisma/client").$Enums.Role;
+        role: import(".prisma/client").$Enums.UserRole;
         createdAt: Date;
         phone: string | null;
         id: string;
         isActive: boolean;
+        lastLogin: Date | null;
         updatedAt: Date;
     } | null>;
     getUserByEmail(email: string): Promise<{
@@ -29,11 +31,12 @@ declare class UserService {
         password: string;
         firstName: string;
         lastName: string;
-        role: import(".prisma/client").$Enums.Role;
+        role: import(".prisma/client").$Enums.UserRole;
         createdAt: Date;
         phone: string | null;
         id: string;
         isActive: boolean;
+        lastLogin: Date | null;
         updatedAt: Date;
     } | null>;
     updateUser(id: string, data: UpdateUserRequest): Promise<{
@@ -41,11 +44,12 @@ declare class UserService {
         password: string;
         firstName: string;
         lastName: string;
-        role: import(".prisma/client").$Enums.Role;
+        role: import(".prisma/client").$Enums.UserRole;
         createdAt: Date;
         phone: string | null;
         id: string;
         isActive: boolean;
+        lastLogin: Date | null;
         updatedAt: Date;
     }>;
     deleteUser(id: string): Promise<{
@@ -53,11 +57,12 @@ declare class UserService {
         password: string;
         firstName: string;
         lastName: string;
-        role: import(".prisma/client").$Enums.Role;
+        role: import(".prisma/client").$Enums.UserRole;
         createdAt: Date;
         phone: string | null;
         id: string;
         isActive: boolean;
+        lastLogin: Date | null;
         updatedAt: Date;
     }>;
 }
