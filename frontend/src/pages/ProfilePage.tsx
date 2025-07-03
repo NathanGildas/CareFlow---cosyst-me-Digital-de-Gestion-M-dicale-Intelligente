@@ -18,7 +18,7 @@ import Card, {
   CardTitle,
   CardContent,
 } from "../components/ui/Card";
-import CardFooter from "../components/ui/Card";
+import { CardFooter } from "../components/ui/Card";
 
 interface ProfileFormData {
   firstName: string;

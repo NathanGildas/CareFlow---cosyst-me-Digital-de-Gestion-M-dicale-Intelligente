@@ -33,6 +33,11 @@ import InsurerDashboard from "./pages/insurer/InsurerDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProfilePage from "./pages/ProfilePage";
 
+// Pages de profils spécialisées
+import PatientProfile from "./pages/patient/PatientProfile";
+import DoctorProfile from "./pages/doctor/DoctorProfile";
+import InsurerProfile from "./pages/insurer/InsurerProfile";
+
 // Pages du module patient
 import AppointmentsPage from "./pages/patient/AppointmentsPage";
 
@@ -109,29 +114,10 @@ const DashboardRedirect: React.FC = () => {
   }
 };
 
-// Pages temporaires pour les autres sections (à développer plus tard)
-
-const DoctorsPage: React.FC = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">
-      Trouver un médecin
-    </h1>
-    <div className="bg-white rounded-lg shadow p-6">
-      <p className="text-gray-600">Recherche de médecins...</p>
-    </div>
-  </div>
-);
-
-const MedicalHistoryPage: React.FC = () => (
-  <div className="p-6">
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">
-      Historique médical
-    </h1>
-    <div className="bg-white rounded-lg shadow p-6">
-      <p className="text-gray-600">Historique des consultations...</p>
-    </div>
-  </div>
-);
+// Import des nouvelles pages
+import DoctorsPage from "./pages/patient/DoctorsPage";
+import MedicalHistoryPage from "./pages/patient/MedicalHistoryPage";
+import PatientsPage from "./pages/doctor/PatientsPage";
 
 // Composant générique pour les pages non développées
 const GenericPage: React.FC<{ title: string; description: string }> = ({
@@ -218,7 +204,7 @@ const App: React.FC = () => {
                       path="medical-history"
                       element={<MedicalHistoryPage />}
                     />
-                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="profile" element={<PatientProfile />} />
                   </Routes>
                 </AppLayout>
               </PatientRoute>
@@ -233,15 +219,7 @@ const App: React.FC = () => {
                 <AppLayout>
                   <Routes>
                     <Route index element={<DoctorDashboard />} />
-                    <Route
-                      path="patients"
-                      element={
-                        <GenericPage
-                          title="Mes patients"
-                          description="Gestion des patients..."
-                        />
-                      }
-                    />
+                    <Route path="patients" element={<PatientsPage />} />
                     <Route
                       path="schedule"
                       element={
@@ -269,7 +247,7 @@ const App: React.FC = () => {
                         />
                       }
                     />
-                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="profile" element={<DoctorProfile />} />
                   </Routes>
                 </AppLayout>
               </DoctorRoute>
@@ -329,7 +307,7 @@ const App: React.FC = () => {
                         />
                       }
                     />
-                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="profile" element={<InsurerProfile />} />
                   </Routes>
                 </AppLayout>
               </InsurerRoute>

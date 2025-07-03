@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   // Classes de base
   const baseClasses =
-    "inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95";
 
   // Classes selon la variante
   const variantClasses = {

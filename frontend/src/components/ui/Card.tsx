@@ -22,12 +22,17 @@ interface CardContentProps {
   className?: string;
 }
 
+interface CardFooterProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 // Composant Card principal
 const Card: React.FC<CardProps> = ({ children, className = "", onClick }) => {
-  const baseClasses = "bg-white rounded-lg shadow border border-gray-200";
+  const baseClasses = "bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-200";
   const interactiveClasses = onClick
-    ? "cursor-pointer hover:shadow-md transition-shadow"
-    : "";
+    ? "cursor-pointer hover:shadow-lg hover:border-gray-300 transform hover:-translate-y-1"
+    : "hover:shadow-md";
 
   return (
     <div
@@ -69,6 +74,14 @@ export const CardContent: React.FC<CardContentProps> = ({
   className = "",
 }) => {
   return <div className={`px-6 py-4 ${className}`}>{children}</div>;
+};
+
+// Composant CardFooter
+export const CardFooter: React.FC<CardFooterProps> = ({
+  children,
+  className = "",
+}) => {
+  return <div className={`px-6 py-4 border-t border-gray-200 ${className}`}>{children}</div>;
 };
 
 // Export par défaut
